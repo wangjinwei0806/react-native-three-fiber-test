@@ -1,117 +1,56 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
+import React, { useRef, useState } from "react";
+import { StyleSheet, View } from "react-native";
+import { Canvas, useFrame } from "react-three-fiber";
 
-import React from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  StatusBar,
-} from 'react-native';
+function Box(props) {
+  // This reference will give us direct access to the mesh
+  const mesh = useRef();
 
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-import { Constants } from 'react-native-unimodules';
-import Webgl from './Webgl'
-console.log(Constants.systemFonts);
-const App = () => {
+  // Set up state for the hovered and active state
+  const [hovered, setHover] = useState(false);
+  const [active, setActive] = useState(false);
+
+  // Rotate mesh every frame, this is outside of React without overhead
+  useFrame(() => {
+    if (mesh && mesh.current) {
+      mesh.current.rotation.x = mesh.current.rotation.y += 0.01;
+    }
+  });
+
   return (
-    <>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
-          <Header />
-          {global.HermesInternal == null ? null : (
-            <View style={styles.engine}>
-              <Text style={styles.footer}>Engine: Hermes</Text>
-            </View>
-          )}
-          <View style={styles.body}>
-            {/* <Webgl/> */}
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Step One</Text>
-              <Text style={styles.sectionDescription}>
-                Edit <Text style={styles.highlight}>App.js</Text> to change this
-                screen and then come back to see your edits.
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>See Your Changes</Text>
-              <Text style={styles.sectionDescription}>
-                <ReloadInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Debug</Text>
-              <Text style={styles.sectionDescription}>
-                <DebugInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Learn More</Text>
-              <Text style={styles.sectionDescription}>
-                Read the docs to discover what to do next:
-              </Text>
-            </View>
-            <LearnMoreLinks />
-          </View>
-        </ScrollView>
-      </SafeAreaView>
-    </>
+    <mesh
+      {...props}
+      ref={mesh}
+      scale={active ? [1.5, 1.5, 1.5] : [1, 1, 1]}
+      onClick={(e) => setActive(!active)}
+      onPointerOver={(e) => setHover(true)}
+      onPointerOut={(e) => setHover(false)}
+    >
+      <boxBufferGeometry attach="geometry" args={[1, 1, 1]} />
+      <meshStandardMaterial
+        attach="material"
+        color={hovered ? "hotpink" : "orange"}
+      />
+    </mesh>
   );
-};
+}
+
+export default function App() {
+  return (
+    <View style={styles.container}>
+      <Canvas>
+        <ambientLight />
+        <pointLight position={[10, 10, 10]} />
+        <Box position={[-1.2, 0, 0]} />
+        <Box position={[1.2, 0, 0]} />
+      </Canvas>
+    </View>
+  );
+}
 
 const styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: Colors.lighter,
-  },
-  engine: {
-    position: 'absolute',
-    right: 0,
-  },
-  body: {
-    backgroundColor: Colors.white,
-  },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: Colors.black,
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-    color: Colors.dark,
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-  footer: {
-    color: Colors.dark,
-    fontSize: 12,
-    fontWeight: '600',
-    padding: 4,
-    paddingRight: 12,
-    textAlign: 'right',
+  container: {
+    flex: 1,
+    backgroundColor: "black",
   },
 });
-
-export default App;
