@@ -3,48 +3,14 @@ import { StyleSheet, View } from "react-native";
 import { Canvas, useFrame, useThree } from "react-three-fiber";
 import { loadDaeAsync, Renderer, THREE, utils } from 'expo-three';
 import { ExpoWebGLRenderingContext, GLView } from 'expo-gl';
-// import { useSprings, a } from '@react-spring/three'
 import { useSprings, useSpring, a } from 'react-spring/three'
-
-// import Text from './Text'
-// import Texts from './Texts'
 
 global.THREE = global.THREE || THREE;
 
-
-
-// function Jumbo() {
-//   // const ref = useRef()
-//   // useFrame(({ clock }) => (ref.current.rotation.x = ref.current.rotation.y = ref.current.rotation.z = Math.sin(clock.getElapsedTime()) * 0.3))
-//   return (
-//     <group /* ref={ref} */>
-//       <Text hAlign="left" position={[8, 4.2, 0]} children="ITHOME" />
-//       <Text hAlign="left" position={[8, 0, 0]} children="DAYUAN" />
-//       <Text hAlign="left" position={[15, -4.2, 0]} children="APP" />
-//       <Text hAlign="left" position={[3, -8, 0]} children="15" size={3} />
-//       <Text hAlign="left" position={[15, -11, 0]} children="DAY" />
-//     </group>
-//   )
-// }
-// function Number({ mouse, hover }) {
-
-//   return (
-//     <Suspense fallback={null}>
-//       <group >
-//         <Texts
-//           size={100}
-//           onPointerOver={() => hover(true)}
-//           onPointerOut={() => hover(false)}>
-//           4
-//         </Texts>
-//       </group>
-//     </Suspense>
-//   )
-// }
-
-
 const number = 35
+
 const colors = ['#A2CCB6', '#FCEEB5', '#EE786E', '#e0feff', 'lightpink', 'lightblue']
+
 const random = i => {
   const r = Math.random()
   return {
@@ -61,6 +27,7 @@ const data = new Array(number).fill().map(() => {
     args: [0.1 + Math.random() * 9, 0.1 + Math.random() * 9, 10]
   }
 })
+
 function Content() {
   const [springs, set] = useSprings(number, i => ({
     from: random(i),
@@ -79,18 +46,15 @@ function Content() {
 function Box(props) {
   // This reference will give us direct access to the mesh
   const mesh = useRef();
-
   // Set up state for the hovered and active state
   const [hovered, setHover] = useState(false);
   const [active, setActive] = useState(false);
-
   // Rotate mesh every frame, this is outside of React without overhead
   useFrame(() => {
     if (mesh && mesh.current) {
       mesh.current.rotation.x = mesh.current.rotation.y += 0.01;
     }
   });
-
   return (
     <mesh
       {...props}
@@ -108,6 +72,7 @@ function Box(props) {
     </mesh>
   );
 }
+
 function Lights() {
   return (
     <group>
@@ -125,49 +90,12 @@ function Lights() {
     </group>
   )
 }
-// function Dodecahedron({ time, ...props }) {
-//   return (
-//     <mesh {...props}>
-//       {/* <Html scaleFactor={10}>
-//         <div class="content">
-//           Suspense <br />
-//           {time}ms
-//         </div>
-//       </Html> */}
-//     </mesh>
-//   )
-// }
 
 export default function App() {
   const [{ top, mouse }, set] = useSpring(() => ({ top: 0, mouse: [0, 0] }))
   return (
     <View style={styles.container}>
-      <Canvas>
-        <ambientLight />
-        <pointLight position={[10, 10, 10]} />
-        <Box position={[-1.2, 0, 0]} />
-        <Box position={[0, 0, 0]} />
-        <Box position={[1.2, 0, 0]} />
-      </Canvas>
-    </View>
-  );
-  return (
-    <View style={styles.container}>
-      {/* <Canvas>
-        <ambientLight />
-        <pointLight position={[10, 10, 10]} />
-        <Box position={[-1.2, 0, 0]} />
-        <Box position={[1.2, 0, 0]} />
-      </Canvas> */}
-
       <Canvas shadowMap camera={{ position: [0, 0, 100], fov: 100 }}>
-        {/* <Dodecahedron time={50000} position={[-2, 0, 0]} /> */}
-        {/* <Number  />
-
-      <Suspense fallback={null}>
-        <Jumbo />
-      </Suspense> */}
-        {/* <Scene top={top} mouse={mouse} /> */}
         <Box position={[-1.2, 0, 0]} />
         <Lights />
         <Content />
@@ -181,9 +109,4 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "black",
   },
-  canvas: {
-    //   position: absolute,
-    // top: 0,
-    // pointer-events: none;
-  }
 });
