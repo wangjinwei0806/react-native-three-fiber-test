@@ -10,6 +10,10 @@ import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader'
 // import Shadow from './Shadow'
 import Assets from '../Assets';
 global.THREE = global.THREE || THREE;
+function Duck() {
+  const gltf = useLoader(GLTFLoader, duck)
+  return <primitive object={gltf.scene} position={[1, 1, 0]} />
+}
 
 export default function Suzanne(props) {
   const model = Assets.models.gltf.robot;
