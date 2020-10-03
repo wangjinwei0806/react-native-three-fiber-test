@@ -5987,6 +5987,11 @@ react-merge-refs@^1.0.0:
   resolved "https://registry.yarnpkg.com/react-merge-refs/-/react-merge-refs-1.1.0.tgz#73d88b892c6c68cbb7a66e0800faa374f4c38b06"
   integrity sha512-alTKsjEL0dKH/ru1Iyn7vliS2QRcBp9zZPGoWxUOvRGWPUYgjo+V01is7p04It6KhgrzhJGnIj9GgX8W4bZoCQ==
 
+react-native-motion-slider@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/react-native-motion-slider/-/react-native-motion-slider-1.0.3.tgz#af8435e84b5811b0c3b04cc30d2f844affa7f99c"
+  integrity sha512-jkQhx/w1ocvWkLnin19cHKLnNucF5AxjLon0vGaRAyLPJDSNeEq7oQtk7eutrLTzD3L4i1QW0Znt4mCxZTlLZQ==
+
 react-native-unimodules@^0.11.0:
   version "0.11.0"
   resolved "https://registry.yarnpkg.com/react-native-unimodules/-/react-native-unimodules-0.11.0.tgz#78483ee4e7eb27b439d34c3ba7455f40087ff166"

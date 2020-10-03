@@ -20,6 +20,7 @@
     "gl-react-native": "^4.0.1",
     "react": "16.13.1",
     "react-native": "0.63.3",
+    "react-native-motion-slider": "^1.0.3",
     "react-native-unimodules": "^0.11.0",
     "react-spring": "8.0.27",
     "react-three-fiber": "^4.2.8",

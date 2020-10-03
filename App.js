@@ -6,13 +6,16 @@ import {
   View,
   Text,
   StatusBar,
-  Dimensions
+  Dimensions,
+  TouchableHighlight
 } from 'react-native';
 
 import { Canvas, useFrame, useThree } from "react-three-fiber";
 import { loadDaeAsync, Renderer, THREE, utils } from 'expo-three';
 import { ExpoWebGLRenderingContext, GLView } from 'expo-gl';
 import { useSprings, useSpring, a } from 'react-spring/three'
+import MotionSlider from 'react-native-motion-slider';
+
 const { width, height } = Dimensions.get('window');
 
 global.THREE = global.THREE || THREE;
@@ -101,12 +104,39 @@ function Lights() {
   )
 }
 
+let randomHex = () => {
+  let letters = "0123456789ABCDEF";
+  let color = "#";
+  for (let i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+};
+let setHex = (rgb) => {
+  let letters = "0123456789ABCDEF";
+  let color = "#";
+  for (let i = 0; i < 6; i++) {
+    color += rgb;
+  }
+  return color;
+};
+
+
 export default function App() {
+  const [Color, setColor] = useState(randomHex());
+
   const [{ top, mouse }, set] = useSpring(() => ({ top: 0, mouse: [0, 0] }))
+  const onClick = () => {
+    console.log("clicked ");
+    setColor(randomHex());
+  }
+
   return (
     <View style={styles.container}>
-      <View style={styles.container}>
-
+      <View style={[
+        styles.container,
+        { backgroundColor: Color },
+      ]}>
         <Canvas shadowMap camera={{ position: [0, 0, 100], fov: 100 }}>
           <Box position={[-1.2, 0, 0]} />
           <Lights />
@@ -114,9 +144,71 @@ export default function App() {
         </Canvas>
       </View>
       <View style={styles.overlay}>
+
         <Text style={styles.welcome}>
           Welcome to the React Native Playground!
         </Text>
+        {/* <MotionSlider
+          title={'Choose the desired temperature'}
+          min={0}
+          max={100}
+          value={25.8}
+          decimalPlaces={1}
+          units={'º'}
+          // backgroundColor={['rgb(3, 169, 244)', 'rgb(255, 152, 0)', 'rgb(255, 87, 34)']}
+          backgroundColor={['rgb(3, 169, 244)', 'rgb(255, 152, 0)', 'rgb(255, 87, 34)', 'rgb(127,140,8)', 'rgb(86,156,7)', 'rgb(5,182,125)', 'rgb(4,187,203)', 'rgb(34,4,217)', 'rgb(133,1,206)', 'rgb(231,1,181)', 'rgb(255,0,11)']}
+          // valueBackgroundColor={(value) => console.log(value)}
+          onValueChanged={(value) => console.log(value)}
+          onPressIn={() => console.log('Pressed in')}
+          onPressOut={() => console.log('Pressed out')}
+          onDrag={() => console.log('Dragging')}
+        /> */}
+        <MotionSlider
+          title={'Choose the desired color'}
+          min={0}
+          max={100}
+          value={80}
+          decimalPlaces={1}
+          units={'º'}
+          backgroundColor={['rgb(0, 0, 0)', 'rgb(255, 0, 0)']}
+          onValueChanged={(value) => {
+            onClick
+            console.log(value)
+          }}
+          onPressIn={() => console.log('Pressed in')}
+          onPressOut={() => console.log('Pressed out')}
+          onDrag={() => console.log('Dragging')}
+        />
+        <MotionSlider
+          title={'Choose the desired color'}
+          min={0}
+          max={100}
+          value={80}
+          decimalPlaces={1}
+          units={'º'}
+          backgroundColor={['rgb(0, 0, 0)', 'rgb(0, 255, 0)']}
+          onValueChanged={(value) => console.log(value)}
+          onPressIn={() => console.log('Pressed in')}
+          onPressOut={() => console.log('Pressed out')}
+          onDrag={() => console.log('Dragging')}
+        />
+        <MotionSlider
+          title={'Choose the desired color'}
+          min={0}
+          max={100}
+          value={80}
+          decimalPlaces={1}
+          units={'º'}
+          backgroundColor={['rgb(0, 0, 0)', 'rgb(0, 0,255)']}
+          onValueChanged={(value) => console.log(value)}
+          onPressIn={() => console.log('Pressed in')}
+          onPressOut={() => console.log('Pressed out')}
+          onDrag={() => console.log('Dragging')}
+        />
+        <TouchableHighlight
+          onPress={onClick}
+         ><View><Text>Tap to change the background</Text></View>
+        </TouchableHighlight>
       </View>
     </View>
   );
@@ -125,16 +217,18 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "red",
+    backgroundColor: randomHex(),
+
+    // backgroundColor: "red",
   },
   overlay: {
     position: 'absolute',
     // flex: 1,
-    marginTop:height*0.4,
-    height: height * 0.6,
+    marginTop: height * 0.5,
+    height: height * 0.5,
     width: width,
-    backgroundColor: "rgba(44, 52, 200, 0.5)",
-    // backgroundColor: 'transparent',
-    opacity: 0.5,
+    // backgroundColor: "rgba(44, 52, 200, 0.5)",
+    backgroundColor: 'transparent',
+    // opacity: 0.5,
   }
 });
