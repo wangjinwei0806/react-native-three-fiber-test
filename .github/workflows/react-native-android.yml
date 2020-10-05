@@ -11,7 +11,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-#     container: reactnativecommunity/react-native-android
+    container: reactnativecommunity/react-native-android
     steps:
     - name: "#️⃣ Generate Build Number"
       id: buildnumber
@@ -23,23 +23,12 @@ jobs:
         echo "Build number is $BUILD_NUMBER"
         echo "Build number is $buildnumber" ${{ steps.buildnumber.outputs.build_number }}
         echo  $BUILD_NUMBER
-
-#     - uses: actions/checkout@v2
-#     - name: Envinfo
-#       run: npx envinfo
-#     - name: Build application
-#       run: yarn install && cd android && chmod +x gradlew && ./gradlew assembleRelease
+    - uses: actions/checkout@v2
+    - name: Envinfo
+      run: npx envinfo
+    - name: Build application
+      run: yarn install && cd android && chmod +x gradlew && ./gradlew assembleRelease
     #new
-#     - name: "#️⃣ Generate Build Number"
-#       id: setbuildnumber
-#       uses: einaregilsson/build-number@v2
-#       with:
-#         token: ${{ secrets.ACTION_TEST }}
-    - name: Print new build number
-      run: |
-        echo "Build number is $BUILD_NUMBER"
-        echo "Build number is $buildnumber" ${{ steps.buildnumber.outputs }}
-        echo  ${{ steps.buildnumber.outputs }}
 
 #     - name: Create release and upload apk
 #       uses: underwindfall/create-release-with-debugapk@v2.0.0
@@ -64,7 +53,6 @@ jobs:
           # Changelog
           Release type: ${{ steps.buildnumber.outputs.build_number }}
         prerelease: true
-
     - name: Upload APKs to release assets
 #       if: steps.version_check.outputs.changed == 'true'
       uses: actions/upload-release-asset@v1
