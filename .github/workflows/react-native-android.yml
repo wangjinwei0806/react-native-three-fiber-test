@@ -44,7 +44,7 @@ jobs:
 #       if: steps.version_check.outputs.changed == 'true'
       uses: actions/create-release@v1
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.ACTION_TEST }}
       with:
         tag_name: V-${{ steps.buildnumber.outputs.build_number }}
         release_name: V-${{ steps.buildnumber.outputs.build_number }}
@@ -53,52 +53,24 @@ jobs:
           # Changelog
           Release type: ${{ steps.buildnumber.outputs.build_number }}
         prerelease: true
-#       if: steps.version_check.outputs.changed == 'true'
-    - name: Upload APKs to release assets
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:  
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./app/build/outputs/apk/debug/app-debug.apk
+    - name: Upload binaries to release
+      uses: svenstaro/upload-release-action@v2
+      with:
+        repo_token: ${{ secrets.ACTION_TEST }}
+        file: ./app/build/outputs/apk/debug/app-debug.apk
         asset_name: app-debug.apk
-        asset_content_type: application/apk
+        tag: V-${{ steps.buildnumber.outputs.build_number }}
+#       if: steps.version_check.outputs.changed == 'true'
 #     - name: Upload APKs to release assets
 #       uses: actions/upload-release-asset@v1
 #       env:
 #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 #       with:  
 #         upload_url: ${{ steps.create_release.outputs.upload_url }}
-#         asset_path: ./android/app/build/outputs/apk/debug/app-debug.apk
+#         asset_path: ./app/build/outputs/apk/debug/app-debug.apk
 #         asset_name: app-debug.apk
-#         asset_content_type: application/vnd.android.package-archive
-#     - name: Upload APKs to release assets
-#       uses: actions/upload-release-asset@v1
-#       env:
-#         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#       with:  
-#         upload_url: ${{ steps.create_release.outputs.upload_url }}
-#         asset_path: /android/app/build/outputs/apk/debug/app-debug.apk
-#         asset_name: app-debug.apk
-#         asset_content_type: application/vnd.android.package-archive
-#     - name: Upload APKs to release assets
-#       uses: actions/upload-release-asset@v1
-#       env:
-#         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#       with:  
-#         upload_url: ${{ steps.create_release.outputs.upload_url }}
-#         asset_path: android/app/build/outputs/apk/debug/app-debug.apk
-#         asset_name: app-debug.apk
-#         asset_content_type: application/vnd.android.package-archive
-#     - name: Upload APKs to release assets
-#       uses: actions/upload-release-asset@v1
-#       env:
-#         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#       with:  
-#         upload_url: ${{ steps.create_release.outputs.upload_url }}
-#         asset_path: app/build/outputs/apk/release/app-release.apk 
-#         asset_name: app-release.apk 
-#         asset_content_type: application/vnd.android.package-archive        
+#         asset_content_type: application/apk
+
         
         
         
