@@ -9,7 +9,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Installing Tree
-      run:  apt-get install tree
+      run: tree -L 4
     - name: Envinfo
       run: npx envinfo
     - name: Build application
