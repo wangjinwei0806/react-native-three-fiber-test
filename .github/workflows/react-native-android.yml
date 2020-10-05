@@ -13,11 +13,17 @@ jobs:
     runs-on: ubuntu-latest
     container: reactnativecommunity/react-native-android
     steps:
-    - uses: actions/checkout@v2
-    - name: Envinfo
-      run: npx envinfo
-    - name: Build application
-      run: yarn install && cd android && chmod +x gradlew && ./gradlew assembleRelease
+    - name: Print new build number
+      run: |
+        echo "Build number is $BUILD_NUMBER"
+        echo "Build number is $buildnumber" ${{ steps.buildnumber.outputs }}
+        echo  ${{ steps.buildnumber.outputs }}
+
+#     - uses: actions/checkout@v2
+#     - name: Envinfo
+#       run: npx envinfo
+#     - name: Build application
+#       run: yarn install && cd android && chmod +x gradlew && ./gradlew assembleRelease
     #new
     - name: "#️⃣ Generate Build Number"
       id: buildnumber
@@ -28,6 +34,8 @@ jobs:
       run: |
         echo "Build number is $BUILD_NUMBER"
         echo "Build number is $buildnumber" ${{ steps.buildnumber.outputs }}
+        echo  ${{ steps.buildnumber.outputs }}
+
 #     - name: Create release and upload apk
 #       uses: underwindfall/create-release-with-debugapk@v2.0.0
 #       env:
