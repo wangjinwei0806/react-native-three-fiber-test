@@ -11,7 +11,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container: reactnativecommunity/react-native-android
+#     container: reactnativecommunity/react-native-android
     steps:
     - name: Print new build number
       run: |
