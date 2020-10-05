@@ -22,13 +22,38 @@ jobs:
       run: |
         echo "Build number is $BUILD_NUMBER"
         echo "Build number is $buildnumber" ${{ steps.buildnumber.outputs }}
-    - name: Create release and upload apk
-      uses: underwindfall/create-release-with-debugapk@v2.0.0
+#     - name: Create release and upload apk
+#       uses: underwindfall/create-release-with-debugapk@v2.0.0
+#       env:
+#           GITHUB_TOKEN: ${{ secrets.ACTION_TEST  }}
+#       with:
+#         tag_name: v1.0.2
+#         asset_path: app/build/outputs/apk/debug/app-debug.apk
+#         asset_name: Example.apk
+#         asset_content_type: application/apk
+    - name: Create GitHub release
+      id: create_release
+      if: steps.version_check.outputs.changed == 'true'
+      uses: actions/create-release@v1
       env:
-          GITHUB_TOKEN: ${{ secrets.ACTION_TEST  }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: v1.0.2
-        asset_path: app/build/outputs/apk/debug/app-debug.apk
-        asset_name: Example.apk
-        asset_content_type: application/apk
+        tag_name: ${{ steps.buildnumber.outputs }}
+        release_name: ${{ steps.buildnumber.outputs }}
+        body: |
+          ![release!](https://i.giphy.com/media/lPulaaB9lDMnGZiivs/source.gif)
+          # Changelog
+          Release type: ${{ steps.buildnumber.outputs }}
+        prerelease: true
+
+    - name: Upload APKs to release assets
+      if: steps.version_check.outputs.changed == 'true'
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./android/app/build/outputs/apk/debug/app-debug.apk
+        asset_name: app-debug.apk
+        asset_content_type: application/vnd.android.package-archive
 
