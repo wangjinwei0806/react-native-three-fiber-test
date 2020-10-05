@@ -44,8 +44,8 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: ${{ steps.buildnumber.outputs }}
-        release_name: ${{ steps.buildnumber.outputs }}
+        tag_name: $BUILD_NUMBER
+        release_name: $BUILD_NUMBER
         body: |
           ![release!](https://i.giphy.com/media/lPulaaB9lDMnGZiivs/source.gif)
           # Changelog
