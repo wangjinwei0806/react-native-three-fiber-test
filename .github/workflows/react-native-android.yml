@@ -8,11 +8,18 @@ jobs:
     container: reactnativecommunity/react-native-android
     steps:
     - uses: actions/checkout@v2
+    - name: Installing Tree
+      run: sudo apt-get install tree
     - name: Envinfo
       run: npx envinfo
     - name: Build application
       run: yarn install && cd android && chmod +x gradlew && ./gradlew assembleRelease
     #new
+      # 測試中建議安裝  Tree
+      #  https://renenyffenegger.ch/notes/Linux/shell/commands/tree
+
+    - name: Showing Tree
+      run: tree -L 4
     - name: Create release and upload apk
       uses: underwindfall/create-release-with-debugapk@v2.0.0
       env:
@@ -22,3 +29,5 @@ jobs:
         asset_path: app/build/outputs/apk/debug/app-debug.apk
         asset_name: Example.apk
         asset_content_type: application/zip
+    - name: Showing Tree
+      run: tree -L 4
