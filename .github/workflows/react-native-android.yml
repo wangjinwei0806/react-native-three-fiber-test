@@ -22,7 +22,7 @@ jobs:
       run: |
         echo "Build number is $BUILD_NUMBER"
         echo "Build number is $buildnumber" ${{ steps.buildnumber.outputs }}
-        echo  ${{ steps.buildnumber.outputs }}
+        echo  $BUILD_NUMBER
 
 #     - uses: actions/checkout@v2
 #     - name: Envinfo
