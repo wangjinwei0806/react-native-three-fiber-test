@@ -53,16 +53,7 @@ jobs:
           # Changelog
           Release type: ${{ steps.buildnumber.outputs.build_number }}
         prerelease: true
-    - name: Upload APKs to release assets
 #       if: steps.version_check.outputs.changed == 'true'
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:  
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: /app/build/outputs/apk/debug/app-debug.apk
-        asset_name: app-debug.apk
-        asset_content_type: application/vnd.android.package-archive
     - name: Upload APKs to release assets
       uses: actions/upload-release-asset@v1
       env:
