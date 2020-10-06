@@ -1,4 +1,4 @@
-package com.rn3d.generated;
+package dev.dayuan.rn3d.generated;
 
 import java.util.Arrays;
 import java.util.List;

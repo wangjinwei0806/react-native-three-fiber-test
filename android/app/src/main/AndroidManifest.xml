@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-  package="com.rn3d">
+  package="dev.dayuan.rn3d">
 
     <uses-permission android:name="android.permission.INTERNET" />
 

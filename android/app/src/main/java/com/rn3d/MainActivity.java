@@ -1,4 +1,4 @@
-package com.rn3d;
+package dev.dayuan.rn3d;
 
 import com.facebook.react.ReactActivity;
 
