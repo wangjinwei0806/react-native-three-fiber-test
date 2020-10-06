@@ -28,27 +28,31 @@ jobs:
       run: npx envinfo
     - name: Build application
       run: yarn install && cd android && chmod +x gradlew && ./gradlew assembleRelease
-    #new
-#     - name: Upload Artifact
-#       uses: actions/upload-artifact@v1
-#       with:
-#         name: app-debug.apk
-#         path: android/app/build/outputs/apk/debug/  
+    #Prepare Release
+    - name: Prepare Release
+      id: prepare_release
+      if: contains(github.ref, 'tags/')
+      run: |
+        APK_PATH=`find . -name '*.apk' | grep release`
+        echo ::set-output name=apk_path::$APK_PATH
+        APK_NAME=`basename $APK_PATH`
+        echo ::set-output name=apk_name::$APK_NAME
+
+#        BUNDLE_PATH=`find . -name '*.aab' | grep release | grep -v intermediates`
+#        echo ::set-output name=bundle_path::$BUNDLE_PATH
+#        BUNDLE_NAME=`basename $BUNDLE_PATH`
+#        echo ::set-output name=bundle_name::$BUNDLE_NAME
+#        TAG_NAME=`echo $GITHUB_REF | cut -d / -f3`
+#        echo ::set-output name=tag_name::$TAG_NAME
+#        PACKAGE_NAME=`./tools/aapt2 dump packagename $APK_PATH`
+#        echo ::set-output name=package_name::$PACKAGE_NAME
+    #Uploads
     - name: Upload Artifact
       uses: actions/upload-artifact@v1
       with:
         name: app-release.apk
         path: android/app/build/outputs/apk/release/     
 
-#     - name: Create release and upload apk
-#       uses: underwindfall/create-release-with-debugapk@v2.0.0
-#       env:
-#           GITHUB_TOKEN: ${{ secrets.ACTION_TEST  }}
-#       with:
-#         tag_name: v1.0.2
-#         asset_path: app/build/outputs/apk/debug/app-debug.apk
-#         asset_name: Example.apk
-#         asset_content_type: application/apk
     - name: Create GitHub release
       id: create_release
 #       if: steps.version_check.outputs.changed == 'true'
@@ -64,24 +68,38 @@ jobs:
           Release type: ${{ steps.buildnumber.outputs.build_number }}
         prerelease: true
 
-#     - name: Upload binaries to release
-#       uses: svenstaro/upload-release-action@v2
-#       with:
-#         repo_token: ${{ secrets.ACTION_TEST }}
-#         file: ./app/build/outputs/apk/debug/app-debug.apk
-#         asset_name: app-debug.apk
-#         tag: V-${{ steps.buildnumber.outputs.build_number }}
 
-#       if: steps.version_check.outputs.changed == 'true'
-    - name: Upload APKs to release assets
+    - name: Upload APK Asset
+      if: steps.create_release.outputs.upload_url && steps.prepare_release.outputs.apk_path && steps.prepare_release.outputs.apk_name
       uses: actions/upload-release-asset@v1
       env:
-        GITHUB_TOKEN: ${{ secrets.ACTION_TEST }}
-      with:  
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: android/app/build/outputs/apk/debug/app-debug.apk
-        asset_name: app-debug.apk
-        asset_content_type: application/apk
+        GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+      with:
+        upload_url: ${{steps.create_release.outputs.upload_url}}
+        asset_path: ${{steps.prepare_release.outputs.apk_path}}
+        asset_name: ${{steps.prepare_release.outputs.apk_name}}
+        asset_content_type: application/vnd.android.package-archive
+#     - name: Upload Bundle Asset
+#       if: steps.create_release.outputs.upload_url && steps.prepare_release.outputs.bundle_path && steps.prepare_release.outputs.bundle_name
+#       uses: actions/upload-release-asset@v1
+#       env:
+#         GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+#       with:
+#         upload_url: ${{steps.create_release.outputs.upload_url}}
+#         asset_path: ${{steps.prepare_release.outputs.bundle_path}}
+#         asset_name: ${{steps.prepare_release.outputs.bundle_name}}
+#         asset_content_type: application/octet-stream
+        
+
+#     - name: Upload APKs to release assets
+#       uses: actions/upload-release-asset@v1
+#       env:
+#         GITHUB_TOKEN: ${{ secrets.ACTION_TEST }}
+#       with:  
+#         upload_url: ${{ steps.create_release.outputs.upload_url }}
+#         asset_path: android/app/build/outputs/apk/debug/app-debug.apk
+#         asset_name: app-debug.apk
+#         asset_content_type: application/apk
 
         
         
