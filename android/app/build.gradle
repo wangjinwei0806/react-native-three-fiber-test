@@ -145,20 +145,9 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode getMyVersionCode()
         versionName getMyVersionName()
-        // versionName = "${versionName != 'unspecified' ? versionName : '1.0'}"
-        // versionCode = "${versionCode != 'unspecified' ? versionCode : 1}"
         // versionCode 1
         // versionName "1.0"
-        // if (project.hasProperty('projVersion')) {
-        //     project.versionCode = project.projVersion
-        // } else {
-        //     project.version = '10.0.0'
-        // }
-        //   if (project.hasProperty('projVersion')) {
-        //     project.version = project.projVersion
-        // } else {
-        //     project.version = '10.0.0'
-        // }
+
     }
     splits {
         abi {
