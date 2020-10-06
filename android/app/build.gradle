@@ -165,13 +165,13 @@ android {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
         }
-        release {
-            // Caution! In production, you need to generate your own keystore file.
-            // see https://facebook.github.io/react-native/docs/signed-apk-android.
-//            signingConfig signingConfigs.debug // <<<---remove this line
-            minifyEnabled enableProguardInReleaseBuilds
-            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
-        }
+//        release {
+//            // Caution! In production, you need to generate your own keystore file.
+//            // see https://facebook.github.io/react-native/docs/signed-apk-android.
+////            signingConfig signingConfigs.debug // <<<---remove this line
+//            minifyEnabled enableProguardInReleaseBuilds
+//            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+//        }
     }
     buildToolsVersion '29.0.2'
     buildTypes {
@@ -181,7 +181,7 @@ android {
         release {
             // Caution! In production, you need to generate your own keystore file.
             // see https://reactnative.dev/docs/signed-apk-android.
-            signingConfig signingConfigs.release
+//            signingConfig signingConfigs.release
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
