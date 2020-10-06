@@ -35,7 +35,7 @@ jobs:
       run: npx envinfo
     - name: Build application
       run: |
-        yarn install && cd android && chmod +x gradlew && ./gradlew build bundleRelease 
+        yarn install && cd android && chmod +x gradlew && ./gradlew build bundleRelease  -PversionCode=$buildnumber_store -PversionName=$buildnumber
         du -shc `find . -regex '.+\.\(apk\|aab\)$'`
 #      run: yarn install && cd android && chmod +x gradlew && ./gradlew assembleRelease
       
