@@ -29,9 +29,10 @@ jobs:
     - name: Build application
       run: yarn install && cd android && chmod +x gradlew && ./gradlew assembleRelease
     #Prepare Release
+      
     - name: Prepare Release
       id: prepare_release
-      if: contains(github.ref, 'tags/')
+#       if: contains(github.ref, 'tags/')
       run: |
         APK_PATH=`find . -name '*.apk' | grep release`
         echo ::set-output name=apk_path::$APK_PATH
@@ -70,7 +71,7 @@ jobs:
 
 
     - name: Upload APK Asset
-      if: steps.create_release.outputs.upload_url && steps.prepare_release.outputs.apk_path && steps.prepare_release.outputs.apk_name
+#       if: steps.create_release.outputs.upload_url && steps.prepare_release.outputs.apk_path && steps.prepare_release.outputs.apk_name
       uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
