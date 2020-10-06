@@ -53,13 +53,21 @@ jobs:
           # Changelog
           Release type: ${{ steps.buildnumber.outputs.build_number }}
         prerelease: true
-    - name: Upload binaries to release
-      uses: svenstaro/upload-release-action@v2
-      with:
-        repo_token: ${{ secrets.ACTION_TEST }}
-        file: ./app/build/outputs/apk/debug/app-debug.apk
-        asset_name: app-debug.apk
-        tag: V-${{ steps.buildnumber.outputs.build_number }}
+
+    - name: Upload app binaries to releaseHub
+      uses: ShaunLWM/action-release-debugapk@master
+      env:
+       GITHUB_TOKEN: ${{ secrets.ACTION_TEST  }}
+       APP_FOLDER: app
+       RELEASE_TITLE: New Build
+#     - name: Upload binaries to release
+#       uses: svenstaro/upload-release-action@v2
+#       with:
+#         repo_token: ${{ secrets.ACTION_TEST }}
+#         file: ./app/build/outputs/apk/debug/app-debug.apk
+#         asset_name: app-debug.apk
+#         tag: V-${{ steps.buildnumber.outputs.build_number }}
+
 #       if: steps.version_check.outputs.changed == 'true'
 #     - name: Upload APKs to release assets
 #       uses: actions/upload-release-asset@v1
