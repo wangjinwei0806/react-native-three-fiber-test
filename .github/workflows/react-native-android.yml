@@ -28,6 +28,12 @@ jobs:
       run: npx envinfo
     - name: Build application
       run: yarn install && cd android && chmod +x gradlew && ./gradlew assembleRelease
+      
+      
+#       ./gradlew build bundleRelease
+#         du -shc `find . -regex '.+\.\(apk\|aab\)$'`
+      
+      
     #Prepare Release
       
     - name: Prepare Release
@@ -38,22 +44,30 @@ jobs:
         echo ::set-output name=apk_path::$APK_PATH
         APK_NAME=`basename $APK_PATH`
         echo ::set-output name=apk_name::$APK_NAME
+        BUNDLE_PATH=`find . -name '*.aab' | grep release | grep -v intermediates`
+        echo ::set-output name=bundle_path::$BUNDLE_PATH
+        BUNDLE_NAME=`basename $BUNDLE_PATH`
+        echo ::set-output name=bundle_name::$BUNDLE_NAME
 #        選用
-#        BUNDLE_PATH=`find . -name '*.aab' | grep release | grep -v intermediates`
-#        echo ::set-output name=bundle_path::$BUNDLE_PATH
-#        BUNDLE_NAME=`basename $BUNDLE_PATH`
-#        echo ::set-output name=bundle_name::$BUNDLE_NAME
 #        TAG_NAME=`echo $GITHUB_REF | cut -d / -f3`
 #        echo ::set-output name=tag_name::$TAG_NAME
 #        PACKAGE_NAME=`./tools/aapt2 dump packagename $APK_PATH`
 #        echo ::set-output name=package_name::$PACKAGE_NAME
     #Uploads
     - name: Upload Artifact
+      if: steps.prepare_release.outputs.apk_path
       uses: actions/upload-artifact@v1
       with:
         name: app-release.apk
         path: android/app/build/outputs/apk/release/     
-
+    #Uploads
+    - name: Upload Artifact
+      if: steps.prepare_release.outputs.bundle_path
+      uses: actions/upload-artifact@v1
+      with:
+        name: app-release.aab
+        path: android/app/build/outputs/bundle/release/  
+        
     - name: Create GitHub release
       id: create_release
 #       if: steps.version_check.outputs.changed == 'true'
@@ -81,16 +95,16 @@ jobs:
         asset_name: ${{steps.prepare_release.outputs.apk_name}}
         asset_content_type: application/vnd.android.package-archive
 #       選用 ＢＢＡ
-#     - name: Upload Bundle Asset
-#       if: steps.create_release.outputs.upload_url && steps.prepare_release.outputs.bundle_path && steps.prepare_release.outputs.bundle_name
-#       uses: actions/upload-release-asset@v1
-#       env:
-#         GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-#       with:
-#         upload_url: ${{steps.create_release.outputs.upload_url}}
-#         asset_path: ${{steps.prepare_release.outputs.bundle_path}}
-#         asset_name: ${{steps.prepare_release.outputs.bundle_name}}
-#         asset_content_type: application/octet-stream
+    - name: Upload Bundle Asset
+      if: steps.create_release.outputs.upload_url && steps.prepare_release.outputs.bundle_path && steps.prepare_release.outputs.bundle_name
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+      with:
+        upload_url: ${{steps.create_release.outputs.upload_url}}
+        asset_path: ${{steps.prepare_release.outputs.bundle_path}}
+        asset_name: ${{steps.prepare_release.outputs.bundle_name}}
+        asset_content_type: application/octet-stream
         
 
 
