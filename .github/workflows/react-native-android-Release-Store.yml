@@ -33,8 +33,11 @@ jobs:
     - uses: actions/checkout@v2
     - name: Envinfo
       run: npx envinfo
+      
     - name: Build application
       run: |
+        echo "versionCode=$BUILD_NUMBER" >> gradle.properties
+        echo "versionName=${{ steps.buildnumber.outputs.build_number }}" >> gradle.properties
         yarn install && cd android && chmod +x gradlew && ./gradlew build bundleRelease -PversionCode=$BUILD_NUMBER -PversionName=${{ steps.buildnumber.outputs.build_number }}
         du -shc `find . -regex '.+\.\(apk\|aab\)$'`
 #      run: yarn install && cd android && chmod +x gradlew && ./gradlew assembleRelease
