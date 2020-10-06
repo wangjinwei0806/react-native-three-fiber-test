@@ -29,6 +29,16 @@ jobs:
     - name: Build application
       run: yarn install && cd android && chmod +x gradlew && ./gradlew assembleRelease
     #new
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v1
+      with:
+        name: app-debug.apk
+        path: android/app/build/outputs/apk/debug/  
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v1
+      with:
+        name: app-release.apk
+        path: android/app/build/outputs/apk/release/     
 
 #     - name: Create release and upload apk
 #       uses: underwindfall/create-release-with-debugapk@v2.0.0
@@ -54,12 +64,6 @@ jobs:
           Release type: ${{ steps.buildnumber.outputs.build_number }}
         prerelease: true
 
-    - name: Upload app binaries to releaseHub
-      uses: ShaunLWM/action-release-debugapk@master
-      env:
-       GITHUB_TOKEN: ${{ secrets.ACTION_TEST  }}
-       APP_FOLDER: app
-       RELEASE_TITLE: New Build
 #     - name: Upload binaries to release
 #       uses: svenstaro/upload-release-action@v2
 #       with:
@@ -69,15 +73,15 @@ jobs:
 #         tag: V-${{ steps.buildnumber.outputs.build_number }}
 
 #       if: steps.version_check.outputs.changed == 'true'
-#     - name: Upload APKs to release assets
-#       uses: actions/upload-release-asset@v1
-#       env:
-#         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#       with:  
-#         upload_url: ${{ steps.create_release.outputs.upload_url }}
-#         asset_path: ./app/build/outputs/apk/debug/app-debug.apk
-#         asset_name: app-debug.apk
-#         asset_content_type: application/apk
+    - name: Upload APKs to release assets
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.ACTION_TEST }}
+      with:  
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: android/app/build/outputs/apk/debug/app-debug.apk
+        asset_name: app-debug.apk
+        asset_content_type: application/apk
 
         
         
