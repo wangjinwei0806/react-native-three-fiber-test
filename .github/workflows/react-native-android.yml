@@ -3,11 +3,14 @@ name: Github Actions
 # on: [push, pull_request]
 on:
   push:
-    branches: [  master  ]
+    branches: [  develop  ]
+
+#     branches: [  master  ]
     tags:
       - 'v*'
   pull_request:
-    branches: [  master  ]
+      branches: [  develop  ]
+#     branches: [  master  ]
 jobs:
   build:
     runs-on: ubuntu-latest
