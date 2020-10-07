@@ -139,4 +139,4 @@ jobs:
         packageName: dev.dayuan.rn3d
         releaseFile: ${{steps.prepare_release.outputs.bundle_path}}
         track: internal
-        whatsNewDirectory: distribution/whatsNewDirectory
+        whatsNewDirectory: distribution/whatsnew
