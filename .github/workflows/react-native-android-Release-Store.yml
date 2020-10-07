@@ -71,9 +71,9 @@ jobs:
 #        echo ::set-output name=package_name::$PACKAGE_NAME
     - name: Print build PATH
       run: |
-        echo ${{steps.prepare_release.outputs.bundle_path}}
-        echo ${{steps.prepare_release.outputs.apk_name}}
-        echo ${{steps.prepare_release.outputs.bundle_path}}/${{steps.prepare_release.outputs.apk_name}}
+         echo ${{steps.prepare_release.outputs.bundle_path}}
+#        echo ${{steps.prepare_release.outputs.apk_path}}
+#        echo ${{steps.prepare_release.outputs.bundle_path}}/${{steps.prepare_release.outputs.apk_name}}
 #       簽署 ＢＢＡ
     - name: Sign AAB
       id: sign
