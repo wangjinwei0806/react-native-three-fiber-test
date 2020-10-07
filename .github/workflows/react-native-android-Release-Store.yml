@@ -3,11 +3,14 @@ name: Github Actions
 # on: [push, pull_request]
 on:
   push:
-    branches: [  Release-Store  ]
+    branches: [  master  ]
+#     branches: [  Release-Store  ]
+
     tags:
       - 'Store*'
   pull_request:
-    branches: [  Release-Store  ]
+    branches: [  master  ]
+#     branches: [  Release-Store  ]
 jobs:
   build:
     runs-on: ubuntu-latest
