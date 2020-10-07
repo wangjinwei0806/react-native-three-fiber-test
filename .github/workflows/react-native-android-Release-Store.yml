@@ -135,6 +135,9 @@ jobs:
         asset_name: ${{steps.prepare_release.outputs.bundle_name}}
         asset_content_type: application/octet-stream
 #       上傳 ＢＢＡ
+    - name: echo Upload Android Release
+      run: |
+        echo app/build/outputs/bundle/release/
     - name: Upload Android Release to Play Store (internal track publishing is default)
       uses: r0adkll/upload-google-play@v1
       with:
