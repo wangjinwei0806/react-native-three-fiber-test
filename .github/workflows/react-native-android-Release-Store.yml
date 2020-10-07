@@ -36,8 +36,8 @@ jobs:
       
     - name: Build application
       run: |
-        echo "versionCode=$BUILD_NUMBER" >> gradle.properties
-        echo "versionName=${{ steps.buildnumber.outputs.build_number }}" >> gradle.properties
+        echo "versionCode=2" >> gradle.properties
+        echo "versionName=0.0.2" >> gradle.properties
         yarn install && cd android && chmod +x gradlew && ./gradlew build bundleRelease -PversionCode=$BUILD_NUMBER -PversionName=${{ steps.buildnumber.outputs.build_number }}
         du -shc `find . -regex '.+\.\(apk\|aab\)$'`
 #      run: yarn install && cd android && chmod +x gradlew && ./gradlew assembleRelease
