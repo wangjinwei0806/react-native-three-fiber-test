@@ -140,6 +140,6 @@ jobs:
       with:
         serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
         packageName: dev.dayuan.rn3d
-        releaseFile: ${{steps.prepare_release.outputs.bundle_path}}/${{steps.prepare_release.outputs.apk_name}}
+        releaseFile: ${{steps.prepare_release.outputs.bundle_path}}/${{steps.prepare_release.outputs.bundle_name}}
         track: internal
         whatsNewDirectory: distribution/whatsnew
