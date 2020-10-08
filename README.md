@@ -1,4 +1,6 @@
+![Github Actions](https://github.com/CS6/react-native-three-fiber-test/workflows/Github%20Actions/badge.svg?branch=Release-Store)
 # react-native-three-fiber-test
+
 react-native-three-fiber-test
 
 ![gif](https://github.com/CS6/react-native-three-fiber-test/blob/master/DOC/IMG_6864.gif)
