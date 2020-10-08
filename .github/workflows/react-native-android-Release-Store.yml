@@ -140,3 +140,11 @@ jobs:
         releaseFile: ${{steps.prepare_release.outputs.bundle_path}}
         track: internal
         whatsNewDirectory: distribution/whatsnew
+    - name: send custom message
+      uses: appleboy/telegram-action@master
+      with:
+        to: ${{ secrets.TELEGRAM_TO_MESSAGEID }}
+        token: ${{ secrets.TELEGRAM_TOKEN }}
+        message: |
+          Below is the apk for release: 
+        document: ${{ github.workspace }}/${{steps.prepare_release.outputs.apk_path}}
