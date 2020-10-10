@@ -43,13 +43,14 @@ jobs:
     - name: Build app (fix)
       run: |
         cd ios
-        xcodebuild archive  -scheme rn3d  -sdk iphoneos -configuration Release -archivePath ../build/export     -showBuildTimingSummary     CURRENT_PROJECT_VERSION="41"   archive
+        xcodebuild clean archive -workspace  ./ios/rn3d.xcworkspace -scheme rn3d  -archivePath ../build/export.xcarchive  -showBuildTimingSummary CURRENT_PROJECT_VERSION="1"   archive
+#            xcodebuild archive  -scheme rn3d  -sdk iphoneos -configuration Release -archivePath ../build/export     -showBuildTimingSummary     CURRENT_PROJECT_VERSION="41"   archive
  #     xcodebuild archive -scheme exp001  -sdk iphoneos  -configuration Release -archivePath /Users/sddivid/Documents/key/ios/9:3xcode/export    -showBuildTimingSummary CURRENT_PROJECT_VERSION="41"   archive 
 
 
     - name: Build IPA (APPLE)
       run: |
-        xcodebuild -exportArchive -archivePath ./build/export.xcarchive -exportPath ./build -exportOptionsPlist ExportOptions.plist -allowProvisioningUpdates
+        xcodebuild -exportArchive -archivePath ./ios/build/export.xcarchive -exportPath ./build -exportOptionsPlist ExportOptions.plist -allowProvisioningUpdates
 
 
       
