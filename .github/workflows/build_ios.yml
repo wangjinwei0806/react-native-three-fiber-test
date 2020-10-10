@@ -25,32 +25,14 @@ jobs:
         p12-password: ${{ secrets.CERTIFICATES_P12_PASSWORD }}
     - uses: Apple-Actions/download-provisioning-profiles@v1
       with:
-        bundle-id: dev.dayuan.pve
+        bundle-id: dev.dayuan.rn3d
         issuer-id: ${{ secrets.APPSTORE_ISSUER_ID }}
         api-key-id: ${{ secrets.APPSTORE_KEY_ID }}
         api-private-key: ${{ secrets.APPSTORE_PRIVATE_KEY }}
    
-    - name: "#️⃣ Generate Build Number"
-      id: buildnumber
-      uses: einaregilsson/build-number@v2
-      with:
-        token: ${{ secrets.ACTION_TEST }}
-    - name: "#️⃣ Generate Build Number store"
-      id: buildnumber_store
-      uses: einaregilsson/build-number@v2
-      with:
-        token: ${{ secrets.ACTION_TEST }}
-        prefix: store
-    - name: Print new build number
-      run: |
-        echo "Build number is $BUILD_NUMBER"
-        echo "Build number is $buildnumber" ${{ steps.buildnumber.outputs.build_number }}
-        echo "Build number is $buildnumber_store" ${{ steps.buildnumber.outputs.buildnumber_store }}
-        echo  $BUILD_NUMBER   
-   
     - name: Build app (fix)
       run: |
-        cd exp001
+        cd ios
         xcodebuild archive  -scheme rn3d  -sdk iphoneos -configuration Release -archivePath ../build/export     -showBuildTimingSummary     CURRENT_PROJECT_VERSION="41"   archive
  #     xcodebuild archive -scheme exp001  -sdk iphoneos  -configuration Release -archivePath /Users/sddivid/Documents/key/ios/9:3xcode/export    -showBuildTimingSummary CURRENT_PROJECT_VERSION="41"   archive 
 
