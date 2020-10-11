@@ -52,8 +52,8 @@ jobs:
         echo "Build number is $buildnumber" ${{ steps.buildnumber.outputs.build_number }}
         echo "IOSVERSION is $buildnumber_store" ${{ steps.IOSVERSION.outputs.build_number }}
         echo "IOSbuild is $buildnumber" ${{ steps.IOSbuild.outputs.build_number }}
-        echo "IOSVERSION is $buildnumber_store" ${{ steps.IOSVERSION.outputs }}
-        echo "IOSbuild is $buildnumber" ${{ steps.IOSbuild.outputs }}
+#        echo "IOSVERSION is $buildnumber_store" ${{ steps.IOSVERSION.outputs }}
+#        echo "IOSbuild is $buildnumber" ${{ steps.IOSbuild.outputs }}
 
     - name: Install dependencies
       run: |    
@@ -67,7 +67,7 @@ jobs:
    
     - name: Build app (fix)
       run: |
-        xcodebuild clean archive -workspace  ./ios/rn3d.xcworkspace -scheme rn3d  -archivePath ./ios/build/export.xcarchive  -showBuildTimingSummary MARKETING_VERSION=0.0.2  CURRENT_PROJECT_VERSION=6   archive
+        xcodebuild clean archive -workspace  ./ios/rn3d.xcworkspace -scheme rn3d  -archivePath ./ios/build/export.xcarchive  -showBuildTimingSummary MARKETING_VERSION=0.0.${{ steps.IOSVERSION.outputs.build_number }}  CURRENT_PROJECT_VERSION=${{ steps.IOSbuild.outputs.build_number }}   archive
 #        xcodebuild clean archive -workspace  ./ios/rn3d.xcworkspace -scheme rn3d  -archivePath ./ios/build/export.xcarchive  -showBuildTimingSummary CURRENT_PROJECT_VERSION="1"   archive
 #            xcodebuild archive  -scheme rn3d  -sdk iphoneos -configuration Release -archivePath ../build/export     -showBuildTimingSummary     CURRENT_PROJECT_VERSION="41"   archive
  #     xcodebuild archive -scheme exp001  -sdk iphoneos  -configuration Release -archivePath /Users/sddivid/Documents/key/ios/9:3xcode/export    -showBuildTimingSummary CURRENT_PROJECT_VERSION="41"   archive 
