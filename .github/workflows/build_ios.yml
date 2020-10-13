@@ -109,7 +109,7 @@ jobs:
 
     - name: send telegram message
       uses: appleboy/telegram-action@master
-      if: always()
+      if: cancelled()
       with:
         to: ${{ secrets.TELEGRAM_TO_MESSAGEID }}
         token: ${{ secrets.TELEGRAM_TOKEN }}
@@ -118,3 +118,14 @@ jobs:
       env:
          status: ${{job.status}}
 #         document: ${{ github.workspace }}/${{steps.prepare_release.outputs.apk_path}}
+
+    - name: Run a Telegram send script
+      if: always()
+      run: |
+        echo Telegram send  deploy msg to you.
+        curl https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage\?chat_id\=${{ secrets.TELEGRAM_TO_MESSAGEID }}\&text\=Actions_IOS_build_${{job.status}}
+      env:
+         status: ${{job.status}}
+
+#contex https://docs.github.com/en/free-pro-team@latest/actions/reference/context-and-expression-syntax-for-github-actions#contexts
+#job https://docs.github.com/en/free-pro-team@latest/actions/reference/context-and-expression-syntax-for-github-actions#job-context
