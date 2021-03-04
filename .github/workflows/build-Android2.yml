@@ -8,7 +8,7 @@ on:
   push:
     branches: [ test-Action ]
     tags:
-      - 'v*'
+      - 'v123'
   pull_request:
     branches: [ test-Action ]
 
